@@ -1,15 +1,9 @@
 from sympy import *
 import numpy as np
-x1 = symbols('x1')
-y = symbols('y')
-theta0, theta1 = symbols('theta0 theta1')
-H = theta1 * x1 + theta0
-J = (H - y)**2
-
-JDotTheta1=J.diff(theta1)
-JDotTheta2=J.diff(theta0)
-
-print(JDotTheta1)
-print(JDotTheta2)
-# print(f(2,1))
-# print(f(2,1).diff(x))
+vector1 = np.array([83.0149353979650, 27.0279349449601])
+vector2 = np.array([83, 27])
+ 
+print(vector1)
+print(vector2)
+op2=np.linalg.norm(vector1-vector2)
+print(op2)
