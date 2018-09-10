@@ -6,17 +6,17 @@ import sys
 import logistic_function as lf
 
 data = xlsR.readXls("logisticRegressionData.xlsx","Sheet1")
-x1A = []
-x2A = []
-x1B = []
-x2B = []
-for dataItem in data:
-    if dataItem[2]==1:
-        x1A.append(dataItem[0])
-        x2A.append(dataItem[1])
-    else:
-        x1B.append(dataItem[0])
-        x2B.append(dataItem[1])
+# x1A = []
+# x2A = []
+# x1B = []
+# x2B = []
+# for dataItem in data:
+#     if dataItem[2]==1:
+#         x1A.append(dataItem[0])
+#         x2A.append(dataItem[1])
+#     else:
+#         x1B.append(dataItem[0])
+#         x2B.append(dataItem[1])
 
 
 
