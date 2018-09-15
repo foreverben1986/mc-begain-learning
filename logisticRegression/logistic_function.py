@@ -1,27 +1,38 @@
-from sympy import MatrixSymbol, Matrix, symbols, exp, pprint, log, hessian
-from sympy.tensor.array import derive_by_array
 import numpy as np
 
-X = MatrixSymbol('X', 2, 1)
-THETA = MatrixSymbol('THETA', 2, 1)
-y = symbols('y')
 dValue = 1e-8
 def logisticFunction(data):
     xData = buildXFromData(data)
     yData = buildYFromData(data)
-    xList = Matrix(X.T).tolist()[0]
-    thetaList = Matrix(THETA.T).tolist()[0]
-    p = formulaP()
-    loglikehood = log(p**y * ((1-p)**(1-y)))
-    # pprint(loglikehood)
-    # pprint(Matrix(THETA).row(0).col(0).trace())
-
+    theta0 = 1
+    theta1 = 1
     ###################### METHOD 1 START ####################
-    logDTheta0 = loglikehood.diff(Matrix(THETA).row(0).col(0).trace())
-    logDTheta1 = loglikehood.diff(Matrix(THETA).row(1).col(0).trace())
-    pprint(xData[0])
-    pprint(logDTheta0.subs(X, Matrix(xData[0])))
-    pprint(logDTheta1.subs(X, Matrix(xData[0])))
+    while True:
+        likehoodDx0Sum = 0
+        likehoodDx1Sum = 0
+        theta0Old = theta0
+        theta1Old = theta1
+        for i in (0, len(xData) - 1):
+            likehoodDx0Sum = likehoodDx0Sum + likehoodDx(yData[i], xData[i][0], xData[i][1], xData[i][0], theta0, theta1)
+        theta0 = theta0 + 20 * likehoodDx0Sum
+
+        for i in (0, len(xData) - 1):
+            likehoodDx1Sum = likehoodDx1Sum + likehoodDx(yData[i], xData[i][0], xData[i][1], xData[i][1], theta0, theta1)
+        theta1 = theta1 + 20 * likehoodDx1Sum
+
+        theta0Delta = theta0 - theta0Old
+        theta1Delta = theta1 - theta1Old
+        temp = theta0Delta * theta0Delta + theta1Delta * theta1Delta
+        print "theta0: %s" % (theta0)
+        print "theta1: %s" % (theta1)
+        print "sum0: %s" % (likehoodDx0Sum)
+        print "sum1: %s" % (likehoodDx1Sum)
+        print "------------------------"
+        if (temp < 0.000000000001):
+            break
+
+    print(theta0)
+    print(theta1)
     ###################### METHOD 1 END ####################
 
     ###################### METHOD 2 START ####################
@@ -32,16 +43,9 @@ def logisticFunction(data):
     # gradPSum = None
     # hessenPSum = None
 
-def formulaP():
-    l = symbols('l')
-    z = X.T*THETA
-    p = 1/(1 + exp(-l))
-    p = p.subs(l, Matrix(z).trace())
-    return p
-
 def buildXFromData(data):
     result = []
-    result = map(lambda x: [[1], [x[:2][0]]], data)
+    result = map(lambda x: [1, x[:2][0]], data)
     return result
 
 def buildYFromData(data):
@@ -49,3 +53,19 @@ def buildYFromData(data):
     result = map(lambda x: x[-1], data)
     return result
     
+def hx(x0, x1, theta0, theta1):
+    temp = np.exp(-x0 * theta0 - x1 * theta1)
+    temp = max(temp, 1e-15)
+    return 1/(1 + temp)
+
+#
+# (y−hθ(x))xj
+#
+def likehoodDx(y, x0, x1, dx, theta0, theta1):
+    temp = hx(x0, x1, theta0, theta1)
+    return (y - temp) * dx
+
+def likehoodD2x(y, x0, x1, dx, theta0, theta1):
+    tempExp = np.exp(-x0 * theta0 - x1 * theta1) 
+    tempExp = max(tempExp, 1e-15)
+    return -1 * dx**2 * tempExp / ((1 + tempExp) **2)
