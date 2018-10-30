@@ -11,6 +11,10 @@ x = np.linspace(data_range[0], data_range[1], 100)
 
 
 fig, ax = plt.subplots()
+<<<<<<< HEAD
 ax.hist(y, normed=True ,bins=90, range=(min(y) - 1,max(y)+1), color='yellow', label='o', histtype='stepfilled')
+=======
+ax.hist(y, normed=True ,bins=90, range=(min(y) - 1,max(y)+1), color='black', label='o', histtype='stepfilled')
+>>>>>>> d
 # plt.show()
 plt.show()
