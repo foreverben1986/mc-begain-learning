@@ -10,7 +10,7 @@ data_range = (min(y), max(y))
 x = np.linspace(data_range[0], data_range[1], 100)
 print(mean)
 print(x)
-print(data_range)
+print(data_range[0])
 
 
 fig, ax = plt.subplots()
