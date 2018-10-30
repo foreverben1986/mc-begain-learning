@@ -11,14 +11,6 @@ x = np.linspace(data_range[0], data_range[1], 100)
 
 
 fig, ax = plt.subplots()
-<<<<<<< HEAD
-<<<<<<< HEAD
-ax.hist(y, normed=True ,bins=90, range=(min(y) - 1,max(y)+1), color='yellow', label='o', histtype='stepfilled')
-=======
 ax.hist(y, normed=True ,bins=90, range=(min(y) - 1,max(y)+1), color='black', label='o', histtype='stepfilled')
->>>>>>> d
-=======
-ax.hist(y, normed=True ,bins=90, range=(min(y) - 1,max(y)+1), color='black', label='o', histtype='stepfilled')
->>>>>>> 105a052fda78670f089a7b8e783f7d88c5a4fd13
 # plt.show()
 plt.show()
