@@ -8,8 +8,6 @@ y = np.random.normal(loc=0.5, scale=0.4, size=100000)
 mean = sum(y) / len(y)
 data_range = (min(y), max(y))
 x = np.linspace(data_range[0], data_range[1], 100)
-print(mean)
-print(x)
 print(data_range[0])
 
 
